@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+      <div class="container">
+        <a href="#" class="navbar-brand d-flex align-items-center">
+          <strong>Section 3 Project</strong>
+        </a>
+      </div>
+    </div>
+    <section class="py-5 text-center container">
+      <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/dashboard">
+          <h1 class="fw-light" >서울시 부동산 매매가 예측</h1>
+          </a>
+        </div>
+      </div>
+      
+    </section>
+    {% if info,info_deal %}
+    <section class="py-5 text-center container">
+      <!-- On tables -->
+      <!-- /////////////////////////////////////////////////////////// -->
+      <p class="lead text-muted">
+          최근 실거래 목록 TOP 10
+      </p>
+      <br>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">계약일자</th>
+            <th scope="col">법정동</th>
+            <th scope="col">자치구</th>
+            <th scope="col">건물용도</th>
+            <th scope="col">건물면적</th>
+            <th scope="col">대지권면적</th>
+            <th scope="col">실거래가</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+                <th scope="row">{{info[0][0]//10000}}.{{(info[0][0]%10000)/100}}</th>
+                <td>{{info[0][1]}}</td>
+                <td>{{info[0][2]}}</td>
+                <td>{{info[0][3]}}</td>
+                <td>{{info[0][4]}}㎡</td>
+                <td>{{info[0][5]}}㎡</td>
+                <td>{{info_deal[0]}}</td>
+              </tr>
+              <tr>
+                <th scope="row">{{info[1][0]//10000}}.{{(info[1][0]%10000)/100}}</th>
+                <td>{{info[1][1]}}</td>
+                <td>{{info[1][2]}}</td>
+                <td>{{info[1][3]}}</td>
+                <td>{{info[1][4]}}㎡</td>
+                <td>{{info[1][5]}}㎡</td>
+                <td>{{info_deal[1]}}</td>
+              </tr>
+              <tr>
+                <th scope="row">{{info[2][0]//10000}}.{{(info[2][0]%10000)/100}}</th>
+                <td>{{info[2][1]}}</td>
+                <td>{{info[2][2]}}</td>
+                <td>{{info[2][3]}}</td>
+                <td>{{info[2][4]}}㎡</td>
+                <td>{{info[2][5]}}㎡</td>
+                <td>{{info_deal[2]}}</td>
+              </tr>
+              <tr>
+                <th scope="row">{{info[3][0]//10000}}.{{(info[3][0]%10000)/100}}</th>
+                <td>{{info[3][1]}}</td>
+                <td>{{info[3][2]}}</td>
+                <td>{{info[3][3]}}</td>
+                <td>{{info[3][4]}}㎡</td>
+                <td>{{info[3][5]}}㎡</td>
+                <td>{{info_deal[3]}}</td>
+              </tr>
+              <tr>
+                <th scope="row">{{info[4][0]//10000}}.{{(info[4][0]%10000)/100}}</th>
+                <td>{{info[4][1]}}</td>
+                <td>{{info[4][2]}}</td>
+                <td>{{info[4][3]}}</td>
+                <td>{{info[4][4]}}㎡</td>
+                <td>{{info[4][5]}}㎡</td>
+                <td>{{info_deal[4]}}</td>
+              </tr>
+              <tr>
+                <th scope="row">{{info[5][0]//10000}}.{{(info[5][0]%10000)/100}}</th>
+                <td>{{info[5][1]}}</td>
+                <td>{{info[5][2]}}</td>
+                <td>{{info[5][3]}}</td>
+                <td>{{info[5][4]}}㎡</td>
+                <td>{{info[5][5]}}㎡</td>
+                <td>{{info_deal[5]}}</td>
+              </tr>
+              <tr>
+                <th scope="row">{{info[6][0]//10000}}.{{(info[6][0]%10000)/100}}</th>
+                <td>{{info[6][1]}}</td>
+                <td>{{info[6][2]}}</td>
+                <td>{{info[6][3]}}</td>
+                <td>{{info[6][4]}}㎡</td>
+                <td>{{info[6][5]}}㎡</td>
+                <td>{{info_deal[6]}}</td>
+              </tr>
+              <tr>
+                <th scope="row">{{info[7][0]//10000}}.{{(info[7][0]%10000)/100}}</th>
+                <td>{{info[7][1]}}</td>
+                <td>{{info[7][2]}}</td>
+                <td>{{info[7][3]}}</td>
+                <td>{{info[7][4]}}㎡</td>
+                <td>{{info[7][5]}}㎡</td>
+                <td>{{info_deal[7]}}</td>
+              </tr>
+              <tr>
+                <th scope="row">{{info[8][0]//10000}}.{{(info[8][0]%10000)/100}}</th>
+                <td>{{info[8][1]}}</td>
+                <td>{{info[8][2]}}</td>
+                <td>{{info[8][3]}}</td>
+                <td>{{info[8][4]}}㎡</td>
+                <td>{{info[8][5]}}㎡</td>
+                <td>{{info_deal[8]}}</td>
+              </tr>
+              <tr>
+                <th scope="row">{{info[9][0]//10000}}.{{(info[9][0]%10000)/100}}</th>
+                <td>{{info[9][1]}}</td>
+                <td>{{info[9][2]}}</td>
+                <td>{{info[9][3]}}</td>
+                <td>{{info[9][4]}}㎡</td>
+                <td>{{info[9][5]}}㎡</td>
+                <td>{{info_deal[9]}}</td>
+              </tr>
+          
+        </tbody>
+      </table>
+      <!-- /////////////////////////////////////////////////////////// -->
+    </section>
+    {% endif %}
+  </body>
+</html>

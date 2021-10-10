@@ -1,0 +1,113 @@
+{% extends "dashboard/index.html" %}
+
+// 헤드부분 불러오기
+{% block head %}
+    <!-- Custom styles for this template -->
+    <link href="static/grid.css" rel="stylesheet">
+    {{ super() }}
+    
+{% endblock %}
+
+// 바디부분 불러오기
+{% block content %}
+    {{ super() }}
+    {% block  chart%}{% endblock %}
+{% endblock %}
+
+
+
+
+
+
+
+// 네비게이션바 색상 설정
+{% block  list_Dashboard%} 
+        <a class="nav-link" aria-current="page" href="/dashboard">
+            <span data-feather="home"></span>
+            Dashboard
+        </a>
+{% endblock %}
+{% block  list_API%}
+    <a class="nav-link" href="/api">
+        <span data-feather="file"></span>
+        API
+    </a>
+{% endblock %}
+{% block  list_Reports%}
+    <a class="nav-link active" href="/reports">
+        <span data-feather="bar-chart-2"></span>
+        Reports
+    </a>
+{% endblock %}
+
+
+//API 설명을 위한 div
+{% block header1 %}
+<h1 class="h2"  >건물 주용도에 따른 수치 변화량 보고</h1>
+{% endblock %}
+
+{% block header1_div %}
+<h1 class="h3"  >월간 실거래량</h1>
+<canvas class="my-4 w-100" id="myChart" width="900" height="240"></canvas>
+<h1 class="h3"  ><br>월간 건물면적 평당(3.3㎡) 평균 매매가</h1>
+<canvas class="my-4 w-100" id="myChart2" width="900" height="240"></canvas>
+{% endblock %}
+
+
+// 네비게이션바 아이콘 삽입 및 그래프 삽입
+{% block  graph%}
+    <script>
+            (function () {
+        'use strict'
+
+        feather.replace({ 'aria-hidden': 'true' })
+        
+        // Graphs
+        var ctx = document.getElementById('myChart')
+        // eslint-disable-next-line no-unused-vars
+        var myChart = new Chart(ctx, {
+            options: {
+                        legend: {
+                                    display: false
+                                }
+                    }
+        })
+        })()
+
+    </script>
+    
+    {% if labels_list,labels,data_1001,data_2001,data_2002,data_14202,data2_1001,data2_2001,data2_2002,data2_14202 %}
+        <script>
+            var labels={{labels}}
+            //월간 실거래량 변화 그래프용 데이터
+            var data1={{data_1001}};
+            var data2={{data_2001}};
+            var data3={{data_2002}};
+            var data4={{data_14202}};
+            //월간 3.3㎡당 평균 매매가 변화 그래프용 데이터
+            var data2_1={{data2_1001}};
+            var data2_2={{data2_2001}};
+            var data2_3={{data2_2002}};
+            var data2_4={{data2_14202}};
+            
+            var label_1=String({{labels_list[0][0]//100}})+"."+String({{labels_list[0][0]%100}});
+            var label_2=String({{labels_list[1][0]//100}})+"."+String({{labels_list[1][0]%100}});
+            var label_3=String({{labels_list[2][0]//100}})+"."+String({{labels_list[2][0]%100}});
+            var label_4=String({{labels_list[3][0]//100}})+"."+String({{labels_list[3][0]%100}});
+            var label_5=String({{labels_list[4][0]//100}})+"."+String({{labels_list[4][0]%100}});
+            var label_6=String({{labels_list[5][0]//100}})+"."+String({{labels_list[5][0]%100}});
+            var label_7=String({{labels_list[6][0]//100}})+"."+String({{labels_list[6][0]%100}});
+            var label_8=String({{labels_list[7][0]//100}})+"."+String({{labels_list[7][0]%100}});
+            var label_9=String({{labels_list[8][0]//100}})+"."+String({{labels_list[8][0]%100}});
+            var label_10=String({{labels_list[9][0]//100}})+"."+String({{labels_list[9][0]%100}});
+            var label_11=String({{labels_list[10][0]//100}})+"."+String({{labels_list[10][0]%100}});
+            var label_12=String({{labels_list[11][0]//100}})+"."+String({{labels_list[11][0]%100}});
+            
+            
+        </script>
+
+    {% endif %}
+
+    <script src="static/reports.js"></script>
+    <script src="static/reports2.js"></script>
+{% endblock %}
