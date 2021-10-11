@@ -26,8 +26,8 @@ def create_app():
 #데이터베이스 및 예측모델 생성
 def update():
     print("update sol activate")
-    exec(open(os.path.join(os.getcwd(), 'app_flask\\data\\make_DB.py'),'rt',encoding='UTF8').read())
-    exec(open(os.path.join(os.getcwd(), 'app_flask\\data\\make_model.py'),'rt',encoding='UTF8').read())
+    exec(open(os.path.join(os.getcwd(), 'app_flask/data/make_DB.py'),'rt',encoding='UTF8').read())
+    exec(open(os.path.join(os.getcwd(), 'app_flask/data/make_model.py'),'rt',encoding='UTF8').read())
     print("update sol done")
 
 #서울특별시 부동산 실거래가 정보 DB 속성 설명 dict
