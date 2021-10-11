@@ -3,6 +3,7 @@ import sqlite3
 import json
 import os
 from app_flask import DB_FILEPATH
+import datetime
 
 LIST_COUNT=200000 #초기 DB에 저장할 자료 수
 
@@ -71,8 +72,8 @@ while count<LIST_COUNT :
     #거래일자를 확인하여 중복여부 확인 후, 데이터베이스에 입력
     for row in list_data:
         row=data_sol(row)
-        print(f'{count}번 데이터 확인중 ',row['DEAL_YMD'],' == ',DB_RTMS_ID)
         if int(row['DEAL_YMD']) <= DB_RTMS_ID:
+          print(f'{count}번 데이터 확인중 ',row['DEAL_YMD'],' == ',DB_RTMS_ID)
           conn.commit()
           count=cur.execute("SELECT COUNT() FROM actual_price").fetchone()[0]
           TRIGER=True
@@ -90,5 +91,5 @@ if count>LIST_COUNT:
       conn.commit()
       count=cur.execute("SELECT COUNT() FROM actual_price").fetchone()[0]
       print(f"이전데이터 삭제(현재 보유개수{count}/최대 보유개수{LIST_COUNT})")
-
+print(datetime.datetime.now())
 conn.close()
