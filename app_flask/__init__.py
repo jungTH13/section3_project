@@ -49,7 +49,7 @@ columns_name={'RTMS_ID': '실거래가아이디',
 
 #DB 자동 업데이트를 위한 스케쥴러 호출(매일 9시경 DB업데이트 실시)
 scheduler= BackgroundScheduler()
-job= scheduler.add_job(update, 'cron', day_of_week='mon-sun', hour=3, minute=00)
+job= scheduler.add_job(update, 'cron', day_of_week='mon-sun', hour=9, minute=00)
 scheduler.start()
 
 update()
