@@ -52,7 +52,5 @@ scheduler= BackgroundScheduler()
 job= scheduler.add_job(update, 'cron', day_of_week='mon-sun', hour=0, minute=55)
 scheduler.start()
 
-update()
-
 if __name__=='__main__':
     app.run(debug=True)
