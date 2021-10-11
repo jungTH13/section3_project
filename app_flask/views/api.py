@@ -27,6 +27,6 @@ def api_get(BJDONG10_CD,BLDG_AREA,BLDG_MUSE_CD,BUILD_YEAR,SGG_CD,TOT_AREA):
     forest_model=joblib.load('forest_model.pkl')
     
     y_pred=forest_model.predict(X_data)
-    return_object={'predicted_value' : int(y_pred), 'Precision' : 1}
+    return_object={'predicted_value' : int(y_pred), 'mse_score' : forest_model.oob_score_}
     return return_object,200
 
