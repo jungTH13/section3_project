@@ -47,9 +47,12 @@ columns_name={'RTMS_ID': '실거래가아이디',
               'SGG_NM': '자치구명',
               'TOT_AREA': '대지권면적'}
 
+#DB 자동 업데이트를 위한 스케쥴러 호출(매일 9시경 DB업데이트 실시)
 scheduler= BackgroundScheduler()
-job= scheduler.add_job(update, 'cron', day_of_week='mon-sun', hour=9, minute=00)
+job= scheduler.add_job(update, 'cron', day_of_week='mon-sun', hour=0, minute=55)
 scheduler.start()
+
+update()
 
 if __name__=='__main__':
     app.run(debug=True)

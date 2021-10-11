@@ -6,7 +6,7 @@ from app_flask import DB_FILEPATH
 
 LIST_COUNT=200000 #초기 DB에 저장할 자료 수
 
-
+TRIGER=False #중복 확인시 루프 타출을 위한 트리거
 
 def create_table(cur,conn):
   #서울특별시 부동산 실거래가 정보 DB 생성
@@ -49,16 +49,15 @@ cur=conn.cursor()
 #테이블 생성 함수 호출
 create_table(cur,conn)
 
-#데이터 베이스 내 기본키의 리스트를 호출하여 저장
-DB_RTMS_ID=[]
-for row in cur.execute("SELECT RTMS_ID FROM actual_price").fetchall():
-    if row is None:
-        break
-    DB_RTMS_ID.append(row[0])
+#데이터 베이스 내 가장 최근 거래일자를 호출하여 저장
+try:
+  DB_RTMS_ID=cur.execute("SELECT DEAL_YMD from actual_price ap order by DEAL_YMD DESC limit 1").fetchone()[0]
+except:
+  DB_RTMS_ID=0
 
 count=0
 
-while count<=LIST_COUNT :
+while count<LIST_COUNT :
     #API를 통한 데이터 받아오기
     API_URL=f'http://openapi.seoul.go.kr:8088/6961534552696f7037316247686e44/json/landActualPriceInfo/{count+1}/{count+1000}/'
     count+=1000
@@ -69,21 +68,27 @@ while count<=LIST_COUNT :
     list_data=parsed_data.get('landActualPriceInfo').get('row')
     total_count=parsed_data.get('landActualPriceInfo').get('list_total_count')
 
-    #기본키 중복여부를 확인한 후, 데이터베이스에 입력
+    #거래일자를 확인하여 중복여부 확인 후, 데이터베이스에 입력
     for row in list_data:
         row=data_sol(row)
-        if row['RTMS_ID'] in DB_RTMS_ID:
+        print(f'{count}번 데이터 확인중 ',row['DEAL_YMD'],' == ',DB_RTMS_ID)
+        if int(row['DEAL_YMD']) <= DB_RTMS_ID:
           conn.commit()
           count=cur.execute("SELECT COUNT() FROM actual_price").fetchone()[0]
+          TRIGER=True
           break
-        
-        cur.execute(f"""INSERT INTO actual_price VALUES({row['RTMS_ID']},{row['ACC_YEAR']},{row['BJDONG10_CD']},"{row['BJDONG_NM']}",{row['BLDG_AREA']},{row['BLDG_MUSE_CD']},"{row['BLDG_MUSE_NM']}","{row['BLDG_NM']}",{row['BUILD_YEAR']},{row['DEAL_YMD']},{row['FLR_INFO']},{row['OBJ_AMT']},{row['SGG_CD']},"{row['SGG_NM']}",{row['TOT_AREA']})""")
+        else:
+          cur.execute(f"""INSERT INTO actual_price VALUES({row['RTMS_ID']},{row['ACC_YEAR']},{row['BJDONG10_CD']},"{row['BJDONG_NM']}",{row['BLDG_AREA']},{row['BLDG_MUSE_CD']},"{row['BLDG_MUSE_NM']}","{row['BLDG_NM']}",{row['BUILD_YEAR']},{row['DEAL_YMD']},{row['FLR_INFO']},{row['OBJ_AMT']},{row['SGG_CD']},"{row['SGG_NM']}",{row['TOT_AREA']})""")
     conn.commit()
     print("DB update list count: ",count)
+    if TRIGER:
+      break
 
+#데이터양이 최대 개수를 넘을 경우 오래된 데이터의 제거 실시
 if count>LIST_COUNT:
-      cur.execute(f"DELETE FROM actual_price WHERE RTMS_ID in(SELECT RTMS_ID FROM actual_price LIMIT 100000 OFFSET {LIST_COUNT})")
+      cur.execute(f"DELETE FROM actual_price WHERE DEAL_YMD <= (SELECT DEAL_YMD FROM actual_price order by DEAL_YMD DESC LIMIT 1 OFFSET {LIST_COUNT})")
       conn.commit()
-      print(f"이전데이터 삭제(현재 보유개수{LIST_COUNT})")
+      count=cur.execute("SELECT COUNT() FROM actual_price").fetchone()[0]
+      print(f"이전데이터 삭제(현재 보유개수{count}/최대 보유개수{LIST_COUNT})")
 
 conn.close()
